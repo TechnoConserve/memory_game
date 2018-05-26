@@ -90,7 +90,25 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.centered {
+  text-align: center;
+}
 
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  text-align: center;
+  border: aquamarine solid 5px;
+  border-radius: 25px;
+  background-color: aqua;
+  padding: 75px;
+  margin: 20px;
+  flex: 1 0 0;
+}
 
 
 
