@@ -165,6 +165,7 @@ function checkMatch() {
       const winTime = now - startTime;
       document.getElementById("turns").innerText = turns.toString();
       document.getElementById("seconds").innerText = winTime.toString();
+      openWinOverlay();
     }
   }
 
