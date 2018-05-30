@@ -163,8 +163,19 @@ function checkMatch() {
     if (matches === iconArray.length / 2) {
       const now = new Date().getTime();
       const winTime = now - startTime;
+      const minutes = Math.floor((winTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((winTime % (1000 * 60)) / 1000);
+
+      function pluralize(num) {
+        if (num === 1) {
+          return ""
+        } else {
+          return "s" }
+      }
+
       document.getElementById("turns").innerText = turns.toString();
-      document.getElementById("seconds").innerText = winTime.toString();
+      document.getElementById("winTime").innerHTML = minutes + " minute" + pluralize(minutes) + " and " + seconds
+        + " second" + pluralize(seconds);
       openWinOverlay();
     }
   }
