@@ -120,9 +120,53 @@ function shuffle(array) {
 
 shuffle(iconArray);  // Randomize order of array elements
 
+// Create variables to track game logic
+let cardClicked = null;  // Track the item that was clicked previously
+let matches = 0;  // Track the number of cards that have been matched
+let turns = 0; // Track the number of match attempts made
+
+function checkMatch() {
+  // Set the card to clicked for styling
+  this.classList.toggle("clicked");
+
+  // Get the image element in the card that was clicked
+  let icon = this.getElementsByTagName("img")[0];
+
+  function resolveAfter3Seconds() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, 3000);
+    });
+  }
+
+  async function flipBackOver(card, previousCard) {
+    await resolveAfter3Seconds();
+    card.classList.toggle("clicked");
+    previousCard.classList.toggle("clicked");
+  }
+
+  console.log("icon =", icon);
+
+  if (cardClicked === null) {
+    console.log('Setting cardClicked to', this);
+    cardClicked = this;
+  } else if (icon.src === cardClicked.getElementsByTagName("img")[0].src) {
+    console.log('Card matches! Incrementing matches and turns');
+    matches += 1;
+    turns += 1;
+  } else {
+    flipBackOver(this, cardClicked);
+    cardClicked = null;
+    turns += 1;
+    console.log('Card does not match. Resetting cardClicked to', cardClicked);
+  }
+}
+
 for (let i = 0; i < iconArray.length; i++) {
+  // Create a box for organizing the game board
   const box = document.getElementsByClassName("box")[i];
-  // Create a card that holds to hold other elements
+  // Create a card to hold other elements
   const card = document.createElement('div');
   // Create a flipper container to deal with animation logic
   const flipper = document.createElement('div');
@@ -145,7 +189,5 @@ for (let i = 0; i < iconArray.length; i++) {
   box.appendChild(card);
 
   // Each card is given a click listener
-  card.addEventListener("click", function () {
-    this.classList.toggle("clicked");
-  });
+  card.addEventListener("click", checkMatch);
 }
