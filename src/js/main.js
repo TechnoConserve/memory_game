@@ -173,6 +173,7 @@ function checkMatch() {
     cardClicked = this;
   } else if (icon.src === cardClicked.getElementsByTagName("img")[0].src) {
     console.log('Card matches! Incrementing matches and turns');
+    cardClicked = null;  // This prevents the next attempt from flipping the last matched card
     matches += 1;
     turns += 1;
     checkWin();
