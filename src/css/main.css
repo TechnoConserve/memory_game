@@ -88,6 +88,9 @@ textarea {
 
 /* ==========================================================================
    Author's custom styles
+
+   Flipping animation guided by blog post by David Walsh
+   https://davidwalsh.name/css-flip
    ========================================================================== */
 
 .centered {
@@ -95,8 +98,36 @@ textarea {
 }
 
 .grid {
+  margin: 0 auto;
+  height: 100vh;
+  max-height: 60vh;
+}
+
+.row {
   display: flex;
-  flex-wrap: wrap;
+}
+
+.box {
+  margin: 20px;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.box:after {
+  content: "";
+  float: left;
+  display: block;
+  padding-top: 100%;
+}
+
+.box .card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -105,12 +136,39 @@ textarea {
   border: aquamarine solid 5px;
   border-radius: 25px;
   background-color: aqua;
-  padding: 75px;
-  margin: 20px;
-  flex: 1 0 0;
+  cursor: pointer;
+  min-width: 50px;
 }
 
+.card.clicked .flipper {
+  transform: rotateY(180deg);
+}
 
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  width: 50%;
+
+  position: relative;
+}
+
+.front, .back {
+  backface-visibility: hidden;
+}
+
+.front {
+  z-index: 2;
+  /*  For firefox 31 */
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.back img {
+  width: 100%;
+}
 
 
 
