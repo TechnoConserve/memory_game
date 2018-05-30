@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+
 /*
  * What follows is the result of much research on cross-browser styling.
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
@@ -92,9 +94,18 @@ textarea {
    Flipping animation guided by blog post by David Walsh
    https://davidwalsh.name/css-flip
    ========================================================================== */
+body {
+  font-family: 'Permanent Marker', cursive;
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-weight: bold;
+}
 
-.centered {
-  text-align: center;
+#stars svg {
+  fill: yellow;
 }
 
 .grid {

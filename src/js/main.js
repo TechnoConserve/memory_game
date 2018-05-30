@@ -117,20 +117,52 @@ function gameSetup() {
 
   shuffle(iconArray);  // Randomize order of array elements
 
-// Create variables to track game logic
+  // Create variables to track game logic
   let cardClicked = null;  // Track the item that was clicked previously
   let matches = 0;  // Track the number of cards that have been matched
-  let turns = 0; // Track the number of match attempts made
+  let turns = -1; // Track the number of match attempts made
   let startTime = new Date().getTime(); // Get a timestamp of when player started the game
+  const timer = document.getElementById("time");
+  let stars = 5;
+  const rating = document.getElementById("stars");
 
   /* Open */
   function openWinOverlay() {
     document.getElementById("win").style.height = "100%";
   }
 
-  /* Close */
-  function closeWinOverlay() {
-    document.getElementById("win").style.height = "0%";
+  function updateStars() {
+    turns += 1;
+
+    function getStars() {
+      switch (true) {
+        case (turns < 35):
+          return 5;
+        case (turns < 45):
+          return 4;
+        case (turns < 55):
+          return 3;
+        case (turns < 65):
+          return 2;
+        default:
+          return 1;  // Turns greater than or equal 65 results in a 1 star rating
+      }
+    }
+
+    stars = getStars();
+
+    console.log('turns', turns);
+    console.log('stars', stars);
+    console.log('rating', rating);
+    // Draw SVGs based on the number of stars
+    rating.innerHTML = "";  // Reset it before looping so we don't go above 5 stars
+    for (let i = 0; i < stars; i++) {
+      rating.innerHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ' +
+        'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+        'class="feather feather-star">' +
+        '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 ' +
+        '8.26 12 2"></polygon></svg>'
+    }
   }
 
   function checkMatch() {
@@ -184,12 +216,12 @@ function gameSetup() {
     } else if (icon.src === cardClicked.getElementsByTagName("img")[0].src) {
       cardClicked = null;  // This prevents the next attempt from flipping the last matched card
       matches += 1;
-      turns += 1;
+      updateStars();
       checkWin();
     } else {
       flipBackOver(this, cardClicked);
       cardClicked = null;
-      turns += 1;
+      updateStars();
     }
   }
 
@@ -221,6 +253,24 @@ function gameSetup() {
     // Each card is given a click listener
     card.addEventListener("click", checkMatch);
   }
+
+  let updateTimer = setInterval(function () {
+    const now = new Date().getTime();
+    let elapsed = now - startTime;
+
+    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+    timer.innerHTML = minutes + "m : " + seconds + "s"
+  }, 1000);
+
+  // Update stars at the beginning of the game
+  updateStars();
+}
+
+/* Close */
+function closeWinOverlay() {
+  document.getElementById("win").style.height = "0%";
 }
 
 gameSetup();
