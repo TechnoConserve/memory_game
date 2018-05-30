@@ -124,6 +124,17 @@ shuffle(iconArray);  // Randomize order of array elements
 let cardClicked = null;  // Track the item that was clicked previously
 let matches = 0;  // Track the number of cards that have been matched
 let turns = 0; // Track the number of match attempts made
+let startTime = new Date().getTime(); // Get a timestamp of when player started the game
+
+/* Open */
+function openWinOverlay() {
+  document.getElementById("win").style.height = "100%";
+}
+
+/* Close */
+function closeWinOverlay() {
+  document.getElementById("win").style.height = "0%";
+}
 
 function checkMatch() {
   // Set the card to clicked for styling
@@ -148,6 +159,15 @@ function checkMatch() {
 
   console.log("icon =", icon);
 
+  function checkWin() {
+    if (matches === iconArray.length / 2) {
+      const now = new Date().getTime();
+      const winTime = now - startTime;
+      document.getElementById("turns").innerText = turns.toString();
+      document.getElementById("seconds").innerText = winTime.toString();
+    }
+  }
+
   if (cardClicked === null) {
     console.log('Setting cardClicked to', this);
     cardClicked = this;
@@ -155,6 +175,7 @@ function checkMatch() {
     console.log('Card matches! Incrementing matches and turns');
     matches += 1;
     turns += 1;
+    checkWin();
   } else {
     flipBackOver(this, cardClicked);
     cardClicked = null;
