@@ -124,7 +124,7 @@ function gameSetup() {
   let startTime = new Date().getTime(); // Get a timestamp of when player started the game
   const timer = document.getElementById("time");
   let stars = 5;
-  const rating = document.getElementById("stars");
+  const rating = document.getElementsByClassName("stars");
 
   /* Open */
   function openWinOverlay() {
@@ -151,21 +151,23 @@ function gameSetup() {
 
     stars = getStars();
 
-    console.log('turns', turns);
-    console.log('stars', stars);
-    console.log('rating', rating);
     // Draw SVGs based on the number of stars
-    rating.innerHTML = "";  // Reset it before looping so we don't go above 5 stars
-    for (let i = 0; i < stars; i++) {
-      rating.innerHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ' +
-        'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
-        'class="feather feather-star">' +
-        '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 ' +
-        '8.26 12 2"></polygon></svg>'
+    for (let y = 0; y < rating.length; y++) {
+      rating[y].innerHTML = "";  // Reset it before looping so we don't go above 5 stars
+      for (let i = 0; i < stars; i++) {
+        rating[y].innerHTML += '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ' +
+          'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+          'class="feather feather-star">' +
+          '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 ' +
+          '8.26 12 2"></polygon></svg>'
+      }
     }
   }
 
   function checkMatch() {
+    if (this === cardClicked) {
+      return;
+    }
     // Set the card to clicked for styling
     this.classList.toggle("clicked");
 
@@ -185,8 +187,6 @@ function gameSetup() {
       card.classList.toggle("clicked");
       previousCard.classList.toggle("clicked");
     }
-
-    console.log("icon =", icon);
 
     function checkWin() {
       // The player has won if the number of matches equal half the number of cards (all cards matched)
