@@ -136,13 +136,13 @@ function gameSetup() {
 
     function getStars() {
       switch (true) {
-        case (turns < 35):
-          return 5;
         case (turns < 45):
-          return 4;
+          return 5;
         case (turns < 55):
-          return 3;
+          return 4;
         case (turns < 65):
+          return 3;
+        case (turns < 75):
           return 2;
         default:
           return 1;  // Turns greater than or equal 65 results in a 1 star rating
