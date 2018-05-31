@@ -122,6 +122,7 @@ function gameSetup() {
   let matches = 0;  // Track the number of cards that have been matched
   let turns = -1; // Track the number of match attempts made
   let startTime = new Date().getTime(); // Get a timestamp of when player started the game
+  let elapsed, minutes, seconds;
   const timer = document.getElementById("time");
   let stars = 5;
   const rating = document.getElementsByClassName("stars");
@@ -193,10 +194,9 @@ function gameSetup() {
     function checkWin() {
       // The player has won if the number of matches equal half the number of cards (all cards matched)
       if (matches === iconArray.length / 2) {
-        const now = new Date().getTime();
-        const winTime = now - startTime; // Compute the difference in time between now and when the player started
-        const minutes = Math.floor((winTime % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((winTime % (1000 * 60)) / 1000);
+        clearInterval(updateTimer);
+        minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+        seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
 
         // Function to add to 's' to words based on the number the word is referencing
         function pluralize(num) {
@@ -260,17 +260,17 @@ function gameSetup() {
 
     // Each card is given a click listener
     card.addEventListener("click", checkMatch);
-    card.addEventListener("animationend", (e) => {
+    card.addEventListener("animationend", () => {
       card.classList.remove("wrong");
     })
   }
 
   let updateTimer = setInterval(function () {
     const now = new Date().getTime();
-    let elapsed = now - startTime;
+    elapsed = now - startTime;
 
-    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+    minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+    seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
 
     timer.innerHTML = minutes + "m : " + seconds + "s"
   }, 1000);
