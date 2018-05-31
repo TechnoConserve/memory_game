@@ -275,6 +275,13 @@ function gameSetup() {
     timer.innerHTML = minutes + "m : " + seconds + "s"
   }, 1000);
 
+  function restartGame() {
+    clearInterval(updateTimer);
+    gameSetup();
+  }
+
+  document.getElementById("restart").addEventListener("click", restartGame);
+
   // Update stars at the beginning of the game
   updateStars();
 }

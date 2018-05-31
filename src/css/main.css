@@ -104,8 +104,16 @@ body {
   font-weight: bold;
 }
 
+.top .timer {
+  flex-basis: 10%;
+}
+
 .stars svg {
   fill: yellow;
+}
+
+#restart {
+  cursor: pointer;
 }
 
 .grid {
