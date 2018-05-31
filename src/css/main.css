@@ -186,6 +186,51 @@ body {
   }
 }
 
+@keyframes shakeNope {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes shakeYep {
+  10%, 90% {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(0, 2px, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(0, 4px, 0);
+  }
+}
+
+.card.match {
+  animation: shakeYep 1s;
+  pointer-events: none;
+}
+
+.card.wrong {
+  animation: shakeNope 1s;
+}
+
 /* ==========================================================================
    Winner Overlay
    Guided by W3Schools: https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp

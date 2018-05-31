@@ -183,6 +183,8 @@ function gameSetup() {
     }
 
     async function flipBackOver(card, previousCard) {
+      card.classList.add("wrong");
+      previousCard.classList.add("wrong");
       await resolveAfter3Seconds();
       card.classList.toggle("clicked");
       previousCard.classList.toggle("clicked");
@@ -211,9 +213,15 @@ function gameSetup() {
       }
     }
 
+    function animateMatch(card, previousCard) {
+      card.classList.add("match");
+      previousCard.classList.add("match");
+    }
+
     if (cardClicked === null) {
       cardClicked = this;
     } else if (icon.src === cardClicked.getElementsByTagName("img")[0].src) {
+      animateMatch(this, cardClicked);
       cardClicked = null;  // This prevents the next attempt from flipping the last matched card
       matches += 1;
       updateStars();
@@ -252,6 +260,9 @@ function gameSetup() {
 
     // Each card is given a click listener
     card.addEventListener("click", checkMatch);
+    card.addEventListener("animationend", (e) => {
+      card.classList.remove("wrong");
+    })
   }
 
   let updateTimer = setInterval(function () {
