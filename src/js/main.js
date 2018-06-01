@@ -121,8 +121,8 @@ function gameSetup() {
   let cardClicked = null;  // Track the item that was clicked previously
   let matches = 0;  // Track the number of cards that have been matched
   let turns = -1; // Track the number of match attempts made
-  let startTime = new Date().getTime(); // Get a timestamp of when player started the game
-  let elapsed, minutes, seconds;
+  const turnDisplay = document.getElementById("turnDisplay");
+  let startTime, elapsed, minutes, seconds;  // Define variables that will hold timer info when game is started
   const timer = document.getElementById("time");
   let stars = 5;
   const rating = document.getElementsByClassName("stars");
@@ -132,8 +132,13 @@ function gameSetup() {
     document.getElementById("win").style.height = "100%";
   }
 
-  function updateStars() {
+  function incrementTurns() {
     turns += 1;
+    turnDisplay.innerText = turns.toString();
+  }
+
+  function updateStars() {
+    incrementTurns();
 
     function getStars() {
       switch (true) {
@@ -218,7 +223,10 @@ function gameSetup() {
       previousCard.classList.add("match");
     }
 
+    // Check if the cards match
     if (cardClicked === null) {
+      // cardClicked is null when the player has just started an only clicked one card or made a match in the previous
+      // turn
       cardClicked = this;
     } else if (icon.src === cardClicked.getElementsByTagName("img")[0].src) {
       animateMatch(this, cardClicked);
@@ -265,21 +273,28 @@ function gameSetup() {
     })
   }
 
-  let updateTimer = setInterval(function () {
-    const now = new Date().getTime();
-    elapsed = now - startTime;
+  // Variable to hold the timer when it gets created
+  let updateTimer;
+  // Function that handles the timer updates
+  function setupTimer() {
+    startTime = new Date().getTime();
+    updateTimer = setInterval(function () {
+      const now = new Date().getTime();
+      elapsed = now - startTime;
 
-    minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-    seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+      minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
 
-    timer.innerHTML = minutes + "m : " + seconds + "s"
-  }, 1000);
+      timer.innerHTML = minutes + "m : " + seconds + "s"
+    }, 1000);
+  }
 
   function restartGame() {
     clearInterval(updateTimer);
     gameSetup();
   }
 
+  document.getElementById("board").addEventListener("click", setupTimer, {once: true});
   document.getElementById("restart").addEventListener("click", restartGame);
 
   // Update stars at the beginning of the game
