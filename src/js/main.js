@@ -180,18 +180,18 @@ function gameSetup() {
     // Get the image element in the card that was clicked
     let icon = this.getElementsByTagName("img")[0];
 
-    function resolveAfter3Seconds() {
+    function resolveAfter2Seconds() {
       return new Promise(resolve => {
         setTimeout(() => {
           resolve();
-        }, 3000);
+        }, 2000);
       });
     }
 
     async function flipBackOver(card, previousCard) {
       card.classList.add("wrong");
       previousCard.classList.add("wrong");
-      await resolveAfter3Seconds();
+      await resolveAfter2Seconds();
       card.classList.toggle("clicked");
       previousCard.classList.toggle("clicked");
     }
