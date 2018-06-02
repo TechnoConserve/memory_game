@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="averyuslaner.com">
+    <serverData>
+      <paths name="averyuslaner.com">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/ave" local="$PROJECT_DIR$" web="/projects/memory-game" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
